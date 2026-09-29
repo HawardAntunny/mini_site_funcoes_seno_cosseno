@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Transformações das Funções Seno e Cosseno</title>
+<style>
+:root{--bg:#07111f;--panel:#0d1b2a;--panel2:#10243a;--text:#f8fafc;--muted:#b9c6d8;--accent:#2ea8ff;--accent2:#ff8a2b;--green:#50e3a4;--red:#ff5f48;--line:#27435f}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Segoe UI,sans-serif;background:linear-gradient(180deg,#06101b,#0a1624);color:var(--text)}
+header{padding:20px 24px 16px;border-bottom:1px solid var(--line);background:#081420;position:sticky;top:0;z-index:10}
+header h1{margin:0;text-align:center;font-size:clamp(28px,4vw,46px)}
+header p{text-align:center;color:var(--muted);margin:8px 0 0}
+main{max-width:1500px;margin:auto;padding:18px}
+section{background:linear-gradient(180deg,#0c1b2a,#0a1624);border:1px solid var(--line);border-radius:18px;padding:18px;margin-bottom:16px;box-shadow:0 14px 34px rgba(0,0,0,.24)}
+h2{margin-top:0;color:#f8fafc} h3{color:#bae6fd}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
+.card{background:#10243a;border:1px solid var(--line);border-radius:14px;padding:14px}
+.formula{font-size:clamp(22px,3vw,34px);font-weight:700;text-align:center;padding:14px;background:#0b1724;border:1px solid var(--line);border-radius:12px;margin:10px 0}
+.note{color:var(--muted);line-height:1.55}
+canvas{width:100%;height:auto;min-height:390px;background:#0b1724;border-radius:14px;display:block}
+.controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-top:14px}
+.control{background:#0b1724;border:1px solid var(--line);border-radius:12px;padding:12px}
+.control label{display:flex;justify-content:space-between;font-weight:700;margin-bottom:8px}
+input[type=range]{width:100%;accent-color:var(--accent)}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+button{background:#17324d;color:white;border:1px solid #315a7d;padding:10px 14px;border-radius:10px;cursor:pointer;font-weight:700}
+button.active{background:#0f7bd8;border-color:#38a9ff;color:white}
+.kpis{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}
+.kpi{padding:9px 12px;border-radius:10px;background:#10243a;border:1px solid var(--line)}
+.step{border-left:4px solid var(--green);padding:12px 14px;background:#0b1724;border-radius:10px;margin:10px 0}
+.quiz button{margin:4px}.feedback{margin-top:10px;font-weight:700}
+footer{text-align:center;color:#94a3b8;padding:20px}
+.small{font-size:.94rem}
+</style>
+</head>
+<body>
+<header>
+  <h1>Funções <span style="color:#2ea8ff">Seno</span> e <span style="color:#ff8a2b">Cosseno</span></h1>
+  <p>Da construção trigonométrica às transformações: <b>a + b·sen(c·x + d)</b> e <b>a + b·cos(c·x + d)</b></p>
+</header>
+<main>
+<section>
+  <h2>1. Começando pelo básico</h2>
+  <div class="grid">
+    <div class="card"><h3>Função seno</h3><div class="formula">f(x) = sen(x)</div><ul><li>Domínio: ℝ</li><li>Imagem: [-1,1]</li><li>Amplitude: 1</li><li>Período: 2π</li><li>f(0)=0</li></ul></div>
+    <div class="card"><h3>Função cosseno</h3><div class="formula">g(x) = cos(x)</div><ul><li>Domínio: ℝ</li><li>Imagem: [-1,1]</li><li>Amplitude: 1</li><li>Período: 2π</li><li>g(0)=1</li></ul></div>
+  </div>
+</section>
+<section>
+  <h2>2. Compare seno e cosseno</h2>
+  <div class="tabs"><button id="showBoth" class="active">Seno + Cosseno</button><button id="showSin">Somente seno</button><button id="showCos">Somente cosseno</button></div>
+  <canvas id="basicGraph" width="1100" height="420"></canvas>
+  <p class="note">As duas funções têm a mesma amplitude e o mesmo período, mas começam em pontos diferentes.</p>
+</section>
+<section>
+  <h2>3. A forma geral</h2>
+  <div class="formula" id="formulaMain">f(x)=a+b·sen(c·x+d)</div>
+  <div class="grid">
+    <div class="card"><h3>Parâmetro a</h3><p class="note"><b>Deslocamento vertical.</b> Move o gráfico para cima ou para baixo.</p><p>Reta média: <b>y=a</b></p></div>
+    <div class="card"><h3>Parâmetro b</h3><p class="note"><b>Amplitude.</b> Controla o “tamanho da onda”.</p><p>Amplitude: <b>|b|</b></p><p>Se b&lt;0, há reflexão vertical.</p></div>
+    <div class="card"><h3>Parâmetro c</h3><p class="note"><b>Período.</b> Controla quantas oscilações aparecem.</p><p>Período: <b>2π/|c|</b></p></div>
+    <div class="card"><h3>Parâmetro d</h3><p class="note"><b>Deslocamento horizontal.</b></p><p>Deslocamento: <b>-d/c</b></p></div>
+  </div>
+</section>
+<section>
+  <h2>4. Laboratório interativo</h2>
+  <div class="tabs"><button id="modeSin" class="active">Seno</button><button id="modeCos">Cosseno</button></div>
+  <canvas id="transformGraph" width="1100" height="430"></canvas>
+  <div class="controls">
+    <div class="control"><label><span>a</span><span id="aval">0</span></label><input id="a" type="range" min="-10" max="10" step="0.5" value="0"></div>
+    <div class="control"><label><span>b</span><span id="bval">1</span></label><input id="b" type="range" min="-10" max="10" step="0.5" value="1"></div>
+    <div class="control"><label><span>c</span><span id="cval">1</span></label><input id="c" type="range" min="0.25" max="8" step="0.25" value="1"></div>
+    <div class="control"><label><span>d</span><span id="dval">0</span></label><input id="d" type="range" min="-15.71" max="15.71" step="0.1" value="0"></div>
+  </div>
+  <div class="kpis"><div class="kpi">Amplitude: <b id="amp">1</b></div><div class="kpi">Período: <b id="period">2π</b></div><div class="kpi">Reta média: <b id="midline">y=0</b></div><div class="kpi">Imagem: <b id="range">[-1,1]</b></div><div class="kpi">Deslocamento horizontal: <b id="shift">0</b></div></div>
+</section>
+<section>
+  <h2>5. Exemplos guiados</h2>
+  <div class="step"><b>Exemplo 1:</b> y=2+3·sen(x)<br>a=2 → sobe 2 unidades.<br>|b|=3 → amplitude 3.<br>c=1 → período 2π.<br>d=0 → sem deslocamento horizontal.<br>Imagem: [-1,5].</div>
+  <div class="step"><b>Exemplo 2:</b> y=-1+2·cos(2x)<br>a=-1 → reta média y=-1.<br>Amplitude=2.<br>c=2 → período π.<br>Imagem: [-3,1].</div>
+  <div class="step"><b>Exemplo 3:</b> y=sen(x-π/2)<br>c=1 e d=-π/2.<br>Deslocamento horizontal=-d/c=π/2, então o gráfico desloca π/2 para a direita.</div>
+</section>
+<section>
+  <h2>6. Checagem rápida</h2>
+  <p><b>1.</b> Em y=3+2·sen(x), qual é a amplitude?</p>
+  <button onclick="check1(1)">1</button><button onclick="check1(2)">2</button><button onclick="check1(3)">3</button><div id="fb1" class="feedback"></div>
+  <p><b>2.</b> Em y=cos(4x), qual é o período?</p>
+  <button onclick="check2('2π')">2π</button><button onclick="check2('π/2')">π/2</button><button onclick="check2('4π')">4π</button><div id="fb2" class="feedback"></div>
+</section>
+<section>
+  <h2>7. Resumo para o quadro</h2>
+  <div class="formula">y=a+b·sen(c·x+d)</div><div class="formula">y=a+b·cos(c·x+d)</div>
+  <div class="grid"><div class="card"><b>a:</b> deslocamento vertical</div><div class="card"><b>|b|:</b> amplitude</div><div class="card"><b>2π/|c|:</b> período</div><div class="card"><b>-d/c:</b> deslocamento horizontal</div></div>
+</section>
+</main>
+<footer>Mini aula interativa — Matemática, 2º Ano do Ensino Médio</footer>
+<script>
+function axes(ctx,w,h,xmin,xmax,ymin,ymax){
+  const L=62,R=18,T=18,B=48;
+  ctx.clearRect(0,0,w,h);
+  ctx.fillStyle='#0b1724';ctx.fillRect(0,0,w,h);
+  const X=x=>L+(x-xmin)/(xmax-xmin)*(w-L-R);
+  const Y=y=>T+(ymax-y)/(ymax-ymin)*(h-T-B);
+
+  // Eixo Y: grade e valores numéricos
+  const span=ymax-ymin;
+  const raw=span/8;
+  const steps=[0.5,1,2,5,10];
+  let ys=10;
+  for(const st of steps){if(st>=raw){ys=st;break}}
+  ctx.font='13px Arial';ctx.textAlign='right';ctx.textBaseline='middle';
+  for(let y=Math.ceil(ymin/ys)*ys;y<=ymax+1e-9;y+=ys){
+    ctx.strokeStyle='#17304a';ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(L,Y(y));ctx.lineTo(w-R,Y(y));ctx.stroke();
+    ctx.fillStyle='#d8e4ef';ctx.fillText(Number(y.toFixed(2)).toString(),L-7,Y(y));
+  }
+
+  // Eixo X: -5π a 5π, marcações de π/2 em π/2
+  function pilab(k){
+    if(k===0)return'0';
+    const sg=k<0?'−':'',n=Math.abs(k);
+    if(n===1)return sg+'π/2';
+    if(n===2)return sg+'π';
+    if(n%2===0)return sg+(n/2)+'π';
+    return sg+n+'π/2';
+  }
+  ctx.textAlign='center';ctx.textBaseline='top';
+  for(let k=-10;k<=10;k++){
+    const x=k*Math.PI/2;
+    ctx.strokeStyle=k%2===0?'#27435f':'#17304a';
+    ctx.lineWidth=k%2===0?1.3:1;
+    ctx.beginPath();ctx.moveTo(X(x),T);ctx.lineTo(X(x),h-B);ctx.stroke();
+    ctx.fillStyle='#d8e4ef';ctx.fillText(pilab(k),X(x),h-B+8);
+  }
+
+  // eixos principais
+  ctx.strokeStyle='#d8e4ef';ctx.lineWidth=2;
+  if(ymin<=0&&ymax>=0){ctx.beginPath();ctx.moveTo(L,Y(0));ctx.lineTo(w-R,Y(0));ctx.stroke()}
+  ctx.beginPath();ctx.moveTo(X(0),T);ctx.lineTo(X(0),h-B);ctx.stroke();
+  return{X,Y};
+}
+function plot(canvas,fs,ymin=-5,ymax=5){
+  const ctx=canvas.getContext('2d'),w=canvas.width,h=canvas.height;
+  const xmin=-5*Math.PI,xmax=5*Math.PI,{X,Y}=axes(ctx,w,h,xmin,xmax,ymin,ymax);
+  fs.forEach(f=>{
+    ctx.strokeStyle=f.color;ctx.lineWidth=3;ctx.beginPath();let first=true;
+    for(let i=0;i<=2600;i++){
+      const x=xmin+(xmax-xmin)*i/2600,y=f.fn(x);
+      if(first){ctx.moveTo(X(x),Y(y));first=false}else ctx.lineTo(X(x),Y(y));
+    }
+    ctx.stroke();
+  });
+}
+let basic='both';function basicDraw(){let fs=[];if(basic==='both'||basic==='sin')fs.push({fn:Math.sin,color:'#2ea8ff'});if(basic==='both'||basic==='cos')fs.push({fn:Math.cos,color:'#ff8a2b'});plot(document.getElementById('basicGraph'),fs,-2,2)}
+function setBasic(){['showBoth','showSin','showCos'].forEach(id=>document.getElementById(id).classList.remove('active'));document.getElementById(basic==='both'?'showBoth':basic==='sin'?'showSin':'showCos').classList.add('active')}
+showBoth.onclick=()=>{basic='both';setBasic();basicDraw()};showSin.onclick=()=>{basic='sin';setBasic();basicDraw()};showCos.onclick=()=>{basic='cos';setBasic();basicDraw()};
+let mode='sin';['a','b','c','d'].forEach(id=>document.getElementById(id).addEventListener('input',drawTransform));modeSin.onclick=()=>{mode='sin';modeSin.classList.add('active');modeCos.classList.remove('active');drawTransform()};modeCos.onclick=()=>{mode='cos';modeCos.classList.add('active');modeSin.classList.remove('active');drawTransform()};
+function nicePi(v){if(Math.abs(v)<.03)return'0';const r=v/Math.PI,vals=[[2,'2π'],[1,'π'],[.5,'π/2'],[-.5,'-π/2'],[-1,'-π'],[-2,'-2π']];for(const [n,s] of vals)if(Math.abs(r-n)<.03)return s;return v.toFixed(2)}
+function drawTransform(){const a=+document.getElementById('a').value,b=+document.getElementById('b').value,c=+document.getElementById('c').value,d=+document.getElementById('d').value;aval.textContent=a;bval.textContent=b;cval.textContent=c;dval.textContent=nicePi(d);const trig=mode==='sin'?'sen':'cos';formulaMain.textContent=`f(x) = ${a} + ${b}·${trig}(${c}·x + ${nicePi(d)})`;const fn=x=>a+b*(mode==='sin'?Math.sin(c*x+d):Math.cos(c*x+d));plot(transformGraph,[{fn,color:mode==='sin'?'#2ea8ff':'#ff8a2b'}],Math.min(-5,a-Math.abs(b)-1),Math.max(5,a+Math.abs(b)+1));amp.textContent=Math.abs(b);period.textContent=nicePi(2*Math.PI/Math.abs(c));midline.textContent=`y = ${a}`;range.textContent=`[${a-Math.abs(b)}, ${a+Math.abs(b)}]`;shift.textContent=nicePi(-d/c)}
+function check1(v){fb1.textContent=v===2?'✅ Correto! Amplitude = |b| = 2.':'❌ Observe o coeficiente que multiplica o seno.'}function check2(v){fb2.textContent=v==='π/2'?'✅ Correto! 2π/4 = π/2.':'❌ Revise: período = 2π/|c|.'}
+basicDraw();drawTransform();
+</script>
+</body>
+</html>
